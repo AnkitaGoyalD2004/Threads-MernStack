@@ -2,14 +2,21 @@ import { VStack, Box, Flex, Text, Link } from '@chakra-ui/layout'
 import { Avatar, Menu, MenuButton, MenuList, Portal , MenuItem } from '@chakra-ui/react'
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
-
+import { Button, useToast } from "@chakra-ui/react";
 
 const UserHeader = () => {
+ const toast = useToast()
 
     const copyURL = ()=>{
         const currentURL = window.location.href;
         navigator.clipboard.writeText(currentURL).then(() => {
-            console.log("URL copt to clipboard")
+            toast({
+                title: "Account Created",
+                status:"success",
+                description: "Profile link copied",
+                duration: 3000,
+                isClosable: true,
+            })
         })
     }
     return (
@@ -54,6 +61,14 @@ const UserHeader = () => {
                             </Portal>
                         </Menu>
                     </Box>
+                </Flex>
+            </Flex>
+            <Flex w={"full"}>
+                <Flex flex={1} borderBottom={"1.5px solid white"} justifyContent={"center"} pb={"3"} cursor={"pointer"}>
+                    <Text fontWeight={"bold"}>Threads</Text>
+                </Flex>
+                <Flex flex={1} borderBottom={"1px solid gray"} justifyContent={"center"} color={"gray.light"} pb={"3"} cursor={"pointer"}>
+               <Text fontWeight={"bold"}>Replies</Text>
                 </Flex>
             </Flex>
         </VStack>

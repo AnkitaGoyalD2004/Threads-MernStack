@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import './index.css'
-import {ChakraProvider} from "@chakra-ui/provider";// A provider component that wraps
+import {ChakraProvider} from "@chakra-ui/react";// A provider component that wraps
 //the application to give access to Chakra UI's theming capabilities.
 import {mode} from "@chakra-ui/theme-tools";
 import { extendTheme } from "@chakra-ui/theme-utils";
