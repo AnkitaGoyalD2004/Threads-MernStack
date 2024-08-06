@@ -1,8 +1,7 @@
-import { VStack, Box, Flex, Text, Link } from '@chakra-ui/layout'
-import { Avatar, Menu, MenuButton, MenuList, Portal , MenuItem } from '@chakra-ui/react'
+import { Box, Flex, Link, Text, VStack } from '@chakra-ui/layout';
+import { Avatar, Menu, MenuButton, MenuItem, MenuList, Portal, useToast } from '@chakra-ui/react';
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
-import { Button, useToast } from "@chakra-ui/react";
 
 const UserHeader = () => {
  const toast = useToast()
@@ -28,7 +27,11 @@ const UserHeader = () => {
                     </Text>
                     <Flex gap={2} alignItems={"center"}>
                         <Text fontSize={"sm"}>markzuckerberg</Text>
-                        <Text fontSize={"xs"} bg={"gray.dark"} color={"gray.light"} p={1} borderRadius={"full"}>
+                        <Text fontSize={{
+                            base: "xs",
+                            md: "sm",
+                            lg:"md"
+                        }} bg={"gray.dark"} color={"gray.light"} p={1} borderRadius={"full"}>
                             threads.next
                         </Text>
                     </Flex>
@@ -36,7 +39,12 @@ const UserHeader = () => {
                 <Box>
                     <Avatar name='Mark Zuckerberg'
                         src='/zuck-avatar.png'
-                        size={"xl"}
+                        size={
+                            {
+                                base: "md",
+                                md:"xl",
+                            }
+                        }
                     />
                 </Box>
             </Flex>
