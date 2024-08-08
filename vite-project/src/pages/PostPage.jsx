@@ -53,21 +53,21 @@ const PostPage = () => {
          createdAt="2d"
          likes = {100}
          username='johndoe'
-         userAvatar='https://bit.1y/dan-abramov'
+         userAvatar='https://bit.ly/dan-abramov'
       />
       <Comments
          comment="Amazing"
          createdAt="1d"
          likes = {134}
          username='johndoe'
-         userAvatar='https://bit.1y/code-beast'
+         userAvatar='https://bit.ly/kent-c-dodds'
       />
       <Comments
          comment="Looks good"
          createdAt="3d"
          likes = {230}
          username='johndoe'
-         userAvatar='https://bit.1y/sage-adebayo'
+         userAvatar='https://bit.ly/prosper-baba'
       />
     </>
   )
