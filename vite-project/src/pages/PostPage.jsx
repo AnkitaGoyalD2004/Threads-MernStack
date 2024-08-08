@@ -2,6 +2,7 @@ import { Avatar, Box, Button, Divider, Flex, Image, Text } from "@chakra-ui/reac
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from '../components/Actions';
+import Comments from "../components/Comments";
 
 const PostPage = () => {
   const [liked , setLiked] = useState(false);
@@ -46,7 +47,28 @@ const PostPage = () => {
         </Flex>
         <Button>Get</Button>
       </Flex>
-      <Divider/>
+      <Divider my={"3"}/>
+      <Comments
+         comment="Looks really good"
+         createdAt="2d"
+         likes = {100}
+         username='johndoe'
+         userAvatar='https://bit.1y/dan-abramov'
+      />
+      <Comments
+         comment="Amazing"
+         createdAt="1d"
+         likes = {134}
+         username='johndoe'
+         userAvatar='https://bit.1y/code-beast'
+      />
+      <Comments
+         comment="Looks good"
+         createdAt="3d"
+         likes = {230}
+         username='johndoe'
+         userAvatar='https://bit.1y/sage-adebayo'
+      />
     </>
   )
 }

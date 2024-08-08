@@ -1,4 +1,4 @@
-import { Avatar, Flex, Text } from "@chakra-ui/react";
+import { Avatar, Divider, Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import Actions from "./Actions";
@@ -18,8 +18,12 @@ const Comments = () => {
         </Flex>
         <Text>Hey this looks great!</Text>
         <Actions liked={liked} setLiked={setLiked} />
+        <Text fontSize={"sm"} color={"gray.light"}>
+            {100 + (liked ? 1 : 0)} likes
+        </Text>
     </Flex>
    </Flex>
+   <Divider />
    </>
   )
 }
