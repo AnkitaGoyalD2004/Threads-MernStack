@@ -8,7 +8,7 @@ import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
 connectDB();
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 4500;
 
 //middleware , These two lines set up middleware in an Express.js application to handle incoming request data.
 app.use(express.json())
@@ -18,7 +18,7 @@ app.use(cookieParser());
 //Routes
 app.use("/api/users" , userRoutes)
 
-app.listen(3000 , ()=> console.log(`server started at port ${PORT}`))
+app.listen(4500 , ()=> console.log(`server started at port ${PORT}`))
 
 
 
