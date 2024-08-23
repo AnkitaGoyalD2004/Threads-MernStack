@@ -45,8 +45,7 @@ const signupUser = async (req, res) => {
 };
 
 //Login User
-const
- loginUser = async(req , res) =>{
+const loginUser = async(req , res) =>{
  try{
 
   const {username  , password} = req.body;
@@ -70,4 +69,21 @@ const
  }
 }
 
-export { loginUser, signupUser };
+//Logout User
+const logoutUser = (req , res) =>{
+ try{
+      res.cookie("jwt" , "" , {maxAge: 1});
+      res.status(200).json({message : "User logged out successfully"})
+ }catch(error){
+  res.status(500).json({message: error.message});
+  console.log("Error in login User :" , error.message)
+ }
+}
+
+//Follow Unfollow
+const followUnFollowUser = async(req , res) =>{
+
+}
+
+export { followUnFollowUser, loginUser, logoutUser, signupUser };
+
