@@ -2,8 +2,8 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from "express";
 import connectDB from './db/connectDB.js';
+import postRoutes from "./routes/postRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
-
 
 dotenv.config();
 connectDB();
@@ -16,7 +16,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(cookieParser());
 
 //Routes
-app.use("/api/users" , userRoutes)
+app.use("/api/users" , userRoutes);
+app.use("/api/posts" , postRoutes);
 
 app.listen(4500 , ()=> console.log(`server started at port ${PORT}`))
 
