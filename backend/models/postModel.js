@@ -19,8 +19,10 @@ required: true
         type: String,
     },
     likes:{
-        type:Number,
-        default:0
+        //array of user ids
+        type :[ mongoose.Schema.Types.ObjectId],
+        ref: "User",
+        default : [],
     },
     replies:[
         {
