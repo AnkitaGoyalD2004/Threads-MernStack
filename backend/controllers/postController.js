@@ -28,7 +28,6 @@ const createPost = async (req, res) => {
             const uploadedResponse = await cloudinary.uploader.upload(img);
             img = uploadedResponse.secure_url;
         }
-
         const newPost = new Post({ postedBy, text, img });
         await newPost.save();
 
@@ -121,6 +120,11 @@ const replyToPost = async (req, res) => {
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
         }
+
+        const reply = {userId , text , userProfilePic , username};
+
+        post.replies.push(reply);
+        await post.save();
 
     } catch (error) {
         res.status(500).json({ message: error.message })
