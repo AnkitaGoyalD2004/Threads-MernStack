@@ -1,9 +1,12 @@
-import React from 'react'
-import SignupCard from '../components/SignupCard'
+import React from 'react';
+import authScreenAtom from '../../atoms/authAtom';
+import LoginCard from '../components/LoginCard';
 
 const AuthPage = () => {
+    const authScreenState = useRecoilValue(authScreenAtom);
+    console.log(authScreenState);
   return (
-    <SignupCard/>
+    <LoginCard/>
   )
 }
 
