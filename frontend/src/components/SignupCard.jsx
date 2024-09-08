@@ -20,8 +20,8 @@ import {
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
 import authScreenAtom from '../atoms/authAtom';
+import userAtom from "../atoms/userAtom";
 import useShowToast from "../hooks/useShowToast";
-
 export default function SignupCard() {
     const [showPassword, setShowPassword] = useState(false);
     const setAuthScreen = useSetRecoilState(authScreenAtom);
@@ -50,7 +50,6 @@ export default function SignupCard() {
                 showToast("Error", data.error, "error");
                 return;
             }
-
             localStorage.setItem("user-threads", JSON.stringify(data));
             setUser(data);
 
