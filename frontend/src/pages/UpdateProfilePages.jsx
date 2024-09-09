@@ -1,16 +1,16 @@
 'use client'
 
 import {
-    Avatar,
-    Button,
-    Center,
-    Flex,
-    FormControl,
-    FormLabel,
-    Heading,
-    Input,
-    Stack,
-    useColorModeValue
+  Avatar,
+  Button,
+  Center,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  useColorModeValue
 } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
 import userAtom from '../atoms/userAtom';
@@ -18,10 +18,10 @@ import userAtom from '../atoms/userAtom';
 export default function UpdateProfilePages() {
     const [user , setUser] = useRecoilState(userAtom);
     const [inputs , setInputs] = useState({
-        name: ' ',
-        username: ' ',
-        email: ' ',
-        bio: " ",
+        name: user.name,
+        username:user.username,
+        email:user.email,
+        bio:user.bio,
         password: " "
     }) ;
   return ( 
