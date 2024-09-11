@@ -1,18 +1,18 @@
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import {
-  Box,
-  Button,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
-  Stack,
-  Text,
-  useColorModeValue,
+	Box,
+	Button,
+	Flex,
+	FormControl,
+	FormLabel,
+	Heading,
+	Input,
+	InputGroup,
+	InputRightElement,
+	Link,
+	Stack,
+	Text,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
