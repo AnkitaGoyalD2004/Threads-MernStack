@@ -1,3 +1,4 @@
+import { v2 as cloudinary } from "cloudinary";
 import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import express from "express";
@@ -9,6 +10,12 @@ dotenv.config();
 connectDB();
 const app = express();
 const PORT = 4500;
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME ,
+    api_key : process.env.CLOUDINARY_API_KEY,
+    api_secret : process.env.CLOUDINARY_API_SECRET , 
+})
 
 //middleware , These two lines set up middleware in an Express.js application to handle incoming request data.
 app.use(express.json())

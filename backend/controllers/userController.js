@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import User from "../models/userModel.js";
 import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
 
-
 //Get User Profile
 const getUserProfile = async (req, res) => {
 const {username} = req.params;
@@ -130,8 +129,9 @@ const followUnFollowUser = async (req, res) => {
 
 //Update User
 const updateUser = async (req, res) => {
-  const { name, email, username, password, profilePic, bio } = req.body;
+  const { name, email, username, password, bio } = req.body;
   const userId = req.user._id;
+  let profilePic = req.body;
   try {
     let user = await User.findById(userId);
     if (!user) return res.status(409).json({error: "user not found" });
@@ -144,6 +144,14 @@ const updateUser = async (req, res) => {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash(password, salt);
       user.password = hashedPassword;
+    }
+
+    if(profilePic){
+      if(user.profilePic){
+        await cloudinary.uploader.desstroy(user.profilePic.split("/").pop().split(".")[0])
+      }
+      const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+      profilePic = uploadedResponse.secure_url;
     }
 
     user.name = name || user.name;

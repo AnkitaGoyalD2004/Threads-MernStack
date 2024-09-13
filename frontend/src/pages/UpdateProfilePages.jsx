@@ -1,18 +1,19 @@
 import {
-  Button,
-  Center,
-  Flex,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Stack,
-  useColorModeValue
+	Avatar,
+	Button,
+	Center,
+	Flex,
+	FormControl,
+	FormLabel,
+	Heading,
+	Input,
+	Stack,
+	useColorModeValue,
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import userAtom from "../atoms/userAtom";
-// import usePreviewImg from "../hooks/usePreviewImg";
+import usePreviewImg from "../hooks/usePreviewImg";
 import useShowToast from "../hooks/useShowToast";
 
 export default function UpdateProfilePage() {
@@ -29,7 +30,7 @@ export default function UpdateProfilePage() {
 
 	const showToast = useShowToast();
 
-	// const { handleImageChange, imgUrl } = usePreviewImg();
+	const { handleImageChange, imgUrl } = usePreviewImg();
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -41,7 +42,7 @@ export default function UpdateProfilePage() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ ...inputs }),
+				body: JSON.stringify({ ...inputs, profilePic: imgUrl }),
 			});
 			const data = await res.json(); // updated user object
 			if (data.error) {
@@ -75,13 +76,13 @@ export default function UpdateProfilePage() {
 					<FormControl id='userName'>
 						<Stack direction={["column", "row"]} spacing={6}>
 							<Center>
-								{/* <Avatar size='xl' boxShadow={"md"} src={imgUrl || user.profilePic} /> */}
+								<Avatar size='xl' boxShadow={"md"} src={imgUrl || user.profilePic} />
 							</Center>
 							<Center w='full'>
 								<Button w='full' onClick={() => fileRef.current.click()}>
 									Change Avatar
 								</Button>
-								{/* <Input type='file' hidden ref={fileRef} onChange={handleImageChange} /> */}
+								<Input type='file' hidden ref={fileRef} onChange={handleImageChange} />
 							</Center>
 						</Stack>
 					</FormControl>
