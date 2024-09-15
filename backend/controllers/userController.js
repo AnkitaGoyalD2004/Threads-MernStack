@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
 import { v2 as cloudinary } from "cloudinary";
-import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
 
@@ -167,22 +166,22 @@ const updateUser = async (req, res) => {
 
 		user = await user.save();
 
-		// Find all posts that this user replied and update username and userProfilePic fields
-		await Post.updateMany(
-			{ "replies.userId": userId },
-			{
-				$set: {
-					"replies.$[reply].username": user.username,
-					"replies.$[reply].userProfilePic": user.profilePic,
-				},
-			},
-			{ arrayFilters: [{ "reply.userId": userId }] }
-		);
+		// // Find all posts that this user replied and update username and userProfilePic fields
+		// await Post.updateMany(
+		// 	{ "replies.userId": userId },
+		// 	{
+		// 		$set: {
+		// 			"replies.$[reply].username": user.username,
+		// 			"replies.$[reply].userProfilePic": user.profilePic,
+		// 		},
+		// 	},
+		// 	{ arrayFilters: [{ "reply.userId": userId }] }
+		// );
 
-		// password should be null in response
-		user.password = null;
+		// // password should be null in response
+		// user.password = null;
 
-		res.status(200).json(user);
+		res.status(200).json({message : "Profile updated Successflly"});
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 		console.log("Error in updateUser: ", err.message);
@@ -191,6 +190,7 @@ const updateUser = async (req, res) => {
 
 
 export {
-  followUnFollowUser, getUserProfile, loginUser,
-  logoutUser, signupUser, updateUser
+	followUnFollowUser, getUserProfile, loginUser,
+	logoutUser, signupUser, updateUser
 };
+
