@@ -1,18 +1,22 @@
-import { Box, Flex, Link, Text, VStack } from '@chakra-ui/layout';
-import { Avatar, Button, Menu, MenuButton, MenuItem, MenuList, Portal, useToast } from '@chakra-ui/react';
-import { useState } from 'react';
+import { Avatar } from "@chakra-ui/avatar";
+import { Box, Flex, Link, Text, VStack } from "@chakra-ui/layout";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
+import { Portal } from "@chakra-ui/portal";
+import { Button, useToast } from "@chakra-ui/react";
+import { useState } from "react";
 import { BsInstagram } from "react-icons/bs";
 import { CgMoreO } from "react-icons/cg";
-import { Link as RouterLink } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
-import userAtom from '../atoms/userAtom';
-import useShowToast from '../hooks/useShowToast';
+import { Link as RouterLink } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
+import useShowToast from "../hooks/useShowToast";
 
 const UserHeader = ({ user }) => {
     const showToast = useShowToast();
     const toast = useToast();
     const currentUser = useRecoilValue(userAtom); // this is a user that is logged in 
-    const [following , setFollowing] = useState(user.followers.includes(currentUser._id));
+    const [following, setFollowing] = useState(user.followers.includes(currentUser?._id));
+    const [updating, setUpdating] = useState(false);
 
     const copyURL = () => {
         const currentURL = window.location.href;
@@ -27,29 +31,40 @@ const UserHeader = ({ user }) => {
         })
     }
 
-    const handleFollowUnfollow = async() =>{
-try{
-   const res  = await fetch(`/api/users/follow/${user._id}` , {
-    method: "POST" , 
-    headers: {
-        "Content-Type" : "application/json",
-    }
-   })
-   const data = await res.json();
-   if(data.error){
-    showToast("Error" , error , "error");
-    return;
-   }
-   if(following){
-    showToast("success" , `Unfollow ${user.name}` , "success");
-    user.followers.pop();
-   }
-   setFollowing(!following);
-   console.log(data);
-   
-}catch(error){
-    showToast("Error" , error , "error");
-}
+    const handleFollowUnfollow = async () => {
+        if(!currentUser){
+            showToast("Error"  , " Please login to follow" , "error");
+            return;
+        }
+        if(updating) return;
+        setUpdating(true);
+        try {
+            const res = await fetch(`/api/users/follow/${user._id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+            const data = await res.json();
+            if (data.error) {
+                showToast("Error", error, "error");
+                return;
+            }
+            if (following) {
+                showToast("Success", `Unfollowed ${user.name}`, "success");
+                user.followers.pop();// simulate removing from followers
+            } else {
+                showToast("Success", `Followed ${user.name}`, "success");
+                user.followers.push(currentUser?._id); // simulate adding to followers
+            }
+            setFollowing(!following);
+            console.log(data);
+
+        } catch (error) {
+            showToast("Error", error, "error");
+        }finally{
+            setUpdating(false);
+        }
     }
     return (
         <VStack gap={4} alignItems={"start"}>
@@ -95,16 +110,16 @@ try{
             </Flex>
             <Text>{user.bio}</Text>
 
-            {currentUser._id === user._id && (
+            {currentUser?._id === user._id && (
                 <Link as={RouterLink} to='/update'>
                     <Button size={"sm"}>Update Profile</Button>
                 </Link>
             )}
 
-{currentUser._id !== user._id && (
-                    <Button size={"sm"}onClick={handleFollowUnfollow}>
-                {following ? "Unfollow " :"follow"}
-                    </Button>
+            {currentUser?._id !== user._id && (
+                <Button size={"sm"} onClick={handleFollowUnfollow} isLoading={updating}>
+                    {following ? "Unfollow " : "follow"}
+                </Button>
             )}
             <Flex w={"full"} justifyContent={"space-between"}>
                 <Flex gap={2} alignItems={"center"}>
