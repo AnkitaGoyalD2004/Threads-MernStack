@@ -1,13 +1,33 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, Text } from "@chakra-ui/layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import useShowToast from "../hooks/useShowToast";
 import Actions from "./Actions";
 
-const Post = ({post , userId}) => {
-  const [liked , setLiked] = useState(false)
+
+const Post = ({post , postedBy}) => {
+  const [liked , setLiked] = useState(false);
+  const showToast = useShowToast();
+
+  useEffect(() => {
+    const getUser = async() =>{
+        try{
+        const res = await fetch("/api/users/profile/" + postedBy);
+        const data = await res.json();
+        if(data.error){
+            showToast("Error" , data.error , "error");
+            return;
+        }
+        }catch(error){
+            showToast("Error" , error.message , "error");
+        }
+    };
+    getUser();
+  } , [postedBy , showToast]);
+
   return (
     <Link to={"/markzuckerberg/post/1"}>
         <Flex gap={"3"} mb={"4"} py={"5"}>
