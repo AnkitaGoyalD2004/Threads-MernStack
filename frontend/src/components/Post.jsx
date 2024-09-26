@@ -3,22 +3,23 @@ import { Image } from "@chakra-ui/image";
 import { Box, Flex, Text } from "@chakra-ui/layout";
 import { useEffect, useState } from "react";
 import { BsThreeDots } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import Actions from "./Actions";
-
 
 const Post = ({ post, postedBy }) => {
     const [liked, setLiked] = useState(false);
     const [user, setUser] = useState(null);
     const showToast = useShowToast();
-
+    const navigate = useNavigate();
+               
     useEffect(() => {
         const getUser = async () => {
-            try {
+            try {   
                 const res = await fetch("/api/users/profile/" + postedBy);
                 const data = await res.json();
                 if (data.error) {
-                    showToast("Error", data.error, "error");
+                    showToast("E    rror", data.error, "error");
                     return;
                 }
                 setUser(data);
@@ -34,10 +35,19 @@ const Post = ({ post, postedBy }) => {
         // <Link to={`/${user.username}/post/${post._id}`}>
             <Flex gap={"3"} mb={"4"} py={"5"}>
                 <Flex flexDirection={"column"} alignItems={"center"} >
-                    <Avatar size={"md"} name={user?.name} src={user?.profilePic} />
+                    <Avatar 
+                    size={"md"} 
+                    name={user?.name} 
+                    src={user?.profilePic} 
+                    onClick={(e) => {
+                        e.preventDefault();
+                        navigate(`/${user.username}`);
+                    }}
+                    />
 
                     <Box w='1px' h={"full"} bg='gray.light' my={2}></Box>
                     <Box position={"relative"} w={"full"}>
+
                         {post.replies.length === 0 && <Text textAlign={"center"}>😶‍🌫️</Text>}
                         {post.replies[0] && (
                             <Avatar
@@ -76,10 +86,24 @@ const Post = ({ post, postedBy }) => {
 
                     </Box>
                 </Flex>
-                <Flex flex={"1"} flexDirection={"column"} gap={"1"}>
-                    <Flex justifyContent={"space-between"} w={"full"}>
+                <Flex 
+                flex={"1"} 
+                flexDirection={"column"} 
+                gap={"1"}>
+                    <Flex 
+                    justifyContent={"space-between"} w={"full"}>
+
                         <Flex w={"full"} alignItems={"center"}>
-                            <Text fontSize={"sm"} fontWeight={"bold"}>{user?.username}</Text>
+                            <Text 
+                            fontSize={"sm"} 
+                            fontWeight={"bold"}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/${user.username}`);
+                            }}
+                            >
+                            {user?.username}
+                                </Text>
                             <Image src='/verified.png' w={"4"} h={"4"} ml={"1"} />
                         </Flex>
                         <Flex gap={"4"} alignItems={"center"} >
