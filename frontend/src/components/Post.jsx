@@ -8,7 +8,6 @@ import useShowToast from "../hooks/useShowToast";
 import Actions from "./Actions";
 
 const Post = ({ post, postedBy }) => {
-    const [liked, setLiked] = useState(false);
     const [user, setUser] = useState(null);
     const showToast = useShowToast();
     const navigate = useNavigate();
@@ -122,7 +121,9 @@ const Post = ({ post, postedBy }) => {
                             <Image src={postImg} w={"full"} />
                         </Box>
                         )}
-                    <Flex gap={"3"} my={"1"}><Actions liked={liked} setLiked={setLiked} /></Flex>
+                    <Flex gap={"3"} my={"1"}>
+                        <Actions post = {post} />
+                        </Flex>
 
                     <Flex gap={"2"} alignItems={"center"}>
                         <Text color={"gray.light"} fontSize={"sm"}>{post.replies.length}</Text>
