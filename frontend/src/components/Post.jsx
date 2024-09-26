@@ -1,8 +1,8 @@
 import { Avatar } from "@chakra-ui/avatar";
 import { Image } from "@chakra-ui/image";
 import { Box, Flex, Text } from "@chakra-ui/layout";
+import { formatDistanceToNow } from "date-fns";
 import { useEffect, useState } from "react";
-import { BsThreeDots } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import useShowToast from "../hooks/useShowToast";
 import Actions from "./Actions";
@@ -19,7 +19,7 @@ const Post = ({ post, postedBy }) => {
                 const res = await fetch("/api/users/profile/" + postedBy);
                 const data = await res.json();
                 if (data.error) {
-                    showToast("E    rror", data.error, "error");
+                    showToast("Error", data.error, "error");
                     return;
                 }
                 setUser(data);
@@ -107,8 +107,11 @@ const Post = ({ post, postedBy }) => {
                             <Image src='/verified.png' w={"4"} h={"4"} ml={"1"} />
                         </Flex>
                         <Flex gap={"4"} alignItems={"center"} >
-                            <Text fontStyle={"sm"} color={"gray.light"}>Id</Text>
-                            <BsThreeDots />
+
+                            <Text fontSize={"sm"} width={36} textAlign={"right"} color={"gray.light"}>
+                             {formatDistanceToNow(new Date(post.createdAt))} ago
+                             </Text>
+
                         </Flex>
                     </Flex>
                     <Text fontStyle={"sm"}>{post.text}</Text>
