@@ -124,13 +124,6 @@ const Post = ({ post, postedBy }) => {
                     <Flex gap={"3"} my={"1"}>
                         <Actions post = {post} />
                         </Flex>
-
-                    <Flex gap={"2"} alignItems={"center"}>
-                        <Text color={"gray.light"} fontSize={"sm"}>{post.replies.length}</Text>
-                        <Box w={"0.5"} h={"0.5"} borderRadius={"full"} bg={"gray.light"}></Box>
-                        <Text color={"gray.light"} fontSize={"sm"}>{post.likes.length}</Text>
-                    </Flex>
-
                 </Flex>
             </Flex>
 
