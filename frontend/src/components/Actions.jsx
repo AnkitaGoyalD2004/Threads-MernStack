@@ -147,7 +147,7 @@ const Actions = ({ post }) => {
 
 				<RepostSVG />
 				<ShareSVG />
-			</Flex>
+			</Flex>.
 
 			<Flex gap={2} alignItems={"center"}>
 				<Text color={"gray.light"} fontSize='sm'>
