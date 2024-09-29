@@ -152,5 +152,10 @@ const getFeedPosts = async (req, res) => {
 	}
 };
 
+const getUserPosts = async(req , res) => {
 
-export { createPost, deletePost, getFeedPosts, getPost, likeUnlikePost, replyToPost };
+}
+
+
+export { createPost, deletePost, getFeedPosts, getPost, getUserPosts, likeUnlikePost, replyToPost };
+
