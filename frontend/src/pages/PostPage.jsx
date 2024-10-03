@@ -7,6 +7,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import postsAtom from "../atoms/postsAtom";
 import userAtom from "../atoms/userAtom";
 import Actions from "../components/Actions";
+import Comment from "../components/Comments";
 import useGetUserProfile from "../hooks/useGetUserProfile";
 import useShowToast from "../hooks/useShowToast";
 
@@ -114,13 +115,13 @@ const PostPage = () => {
 			</Flex>
 
 			<Divider my={4} />
-			{/* {currentPost.replies.map((reply) => (
-				// <Comment
-				// 	key={reply._id}
-				// 	reply={reply}
-				// 	lastReply={reply._id === currentPost.replies[currentPost.replies.length - 1]._id}
-				// />
-			))} */}
+			{currentPost.replies.map((reply) => (
+				<Comment
+					key={reply._id}
+					reply={reply}
+					lastReply={reply._id === currentPost.replies[currentPost.replies.length - 1]._id}
+				/>
+			))}
 		</>
 	);
 };
