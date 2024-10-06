@@ -1,5 +1,6 @@
-import { Flex, Image, Link, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Image, Link, useColorMode } from "@chakra-ui/react";
 import { AiFillHome } from "react-icons/ai";
+import { FiLogOut } from "react-icons/fi";
 import { RxAvatar } from "react-icons/rx";
 import { Link as RouterLink } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -30,7 +31,10 @@ const Header = () => {
 					<Link as={RouterLink} to={`/${user.username}`}>
 						<RxAvatar size={24} />
 					</Link>
-					</Flex>
+					<Button size={"xs"}>
+						<FiLogOut size={20}/>
+					</Button>
+				</Flex>
 			)}
 		</Flex>
 	);
