@@ -1,6 +1,7 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { v2 as cloudinary } from "cloudinary";
 import mongoose from "mongoose";
+// import Post from "../models/postModel.js";
 import User from "../models/userModel.js";
 import generateTokenAndSetCookie from "../utils/helpers/generateTokenAndSetCookie.js";
 
@@ -75,6 +76,11 @@ const loginUser = async (req, res) => {
 		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
 
 		if (!user || !isPasswordCorrect) return res.status(400).json({ error: "Invalid username or password" });
+
+		if (user.isFrozen) {
+			user.isFrozen = false;
+			await user.save();
+		}
 
 		generateTokenAndSetCookie(user._id, res);
 
@@ -168,33 +174,72 @@ const updateUser = async (req, res) => {
 		user = await user.save();
 
 		// // Find all posts that this user replied and update username and userProfilePic fields
-		await Post.updateMany(
-			{ "replies.userId": userId },
-			{
-				$set: {
-					"replies.$[reply].username": user.username,
-					"replies.$[reply].userProfilePic": user.profilePic,
-				},
-			},
-			{ arrayFilters: [{ "reply.userId": userId }] }
-		);
+		// await Post.updateMany(
+		// 	{ "replies.userId": userId },
+		// 	{
+		// 		$set: {
+		// 			"replies.$[reply].username": user.username,
+		// 			"replies.$[reply].userProfilePic": user.profilePic,
+		// 		},
+		// 	},
+		// 	{ arrayFilters: [{ "reply.userId": userId }] }
+		// );
 
 		// password should be null in response
 		user.password = null;
 
-		res.status(200).json({message : "Profile updated Successflly"});
+		res.status(200).json(user);
 	} catch (err) {
 		res.status(500).json({ error: err.message });
 		console.log("Error in updateUser: ", err.message);
 	}
 };
 
+const getSuggestedUsers = async (req, res) => {
+	try {
+		// exclude the current user from suggested users array and exclude users that current user is already following
+		const userId = req.user._id;
 
-export {
-	followUnFollowUser, getUserProfile, loginUser,
-	logoutUser, signupUser, updateUser
+		const usersFollowedByYou = await User.findById(userId).select("following");
+
+		const users = await User.aggregate([
+			{
+				$match: {
+					_id: { $ne: userId },
+				},
+			},
+			{
+				$sample: { size: 10 },
+			},
+		]);
+		const filteredUsers = users.filter((user) => !usersFollowedByYou.following.includes(user._id));
+		const suggestedUsers = filteredUsers.slice(0, 4);
+
+		suggestedUsers.forEach((user) => (user.password = null));
+
+		res.status(200).json(suggestedUsers);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
 };
 
+const freezeAccount = async (req, res) => {
+	try {
+		const user = await User.findById(req.user._id);
+		if (!user) {
+			return res.status(400).json({ error: "User not found" });
+		}
 
+		user.isFrozen = true;
+		await user.save();
 
+		res.status(200).json({ success: true });
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
+};
 
+export {
+	followUnFollowUser, freezeAccount, getSuggestedUsers, getUserProfile, loginUser,
+	logoutUser, signupUser, updateUser
+};
