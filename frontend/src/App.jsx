@@ -1,4 +1,4 @@
-import { Container } from '@chakra-ui/react';
+import { Box, Container } from '@chakra-ui/react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import userAtom from "./atoms/userAtom";
