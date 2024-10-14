@@ -1,9 +1,9 @@
 import React from 'react'
 
 const ChatPage = () => {
-  return (
-    <div>ChatPage</div>
-  )
+  return <Box position={"absolute"} left={"50%"} >
+    ChatPage
+  </Box>
 }
 
 export default ChatPage

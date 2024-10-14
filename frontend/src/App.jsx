@@ -14,6 +14,7 @@ function App() {
 const user = useRecoilValue(userAtom);
 
   return (
+    <Box position={"relative"} width="full">
     <Container maxW="620px">
       <Header />
       <Routes> 
@@ -33,6 +34,7 @@ const user = useRecoilValue(userAtom);
         <Route path="/chat" element={user ? <ChatPage /> : <Navigate to={"/auth"} />}/>
       </Routes> 
     </Container>
+    </Box>
   )
 }
 
