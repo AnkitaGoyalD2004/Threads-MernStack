@@ -1,5 +1,6 @@
 import { Avatar, Divider, Flex, Image, Skeleton, SkeletonCircle, Text, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
+import Message from './Message'
 
 const MessageContainer = () => {
     return (
@@ -42,6 +43,10 @@ const MessageContainer = () => {
                         )
                         )
                     )}
+                    <Message ownMessage={true}/>
+                    <Message ownMessage={false}/>
+                    <Message ownMessage={false}/>
+                    <Message ownMessage={true}/>
             </Flex>
         </Flex>
     )
