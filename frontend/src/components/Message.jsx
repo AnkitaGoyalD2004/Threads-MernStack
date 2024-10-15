@@ -16,7 +16,7 @@ const Message = ({ ownMessage }) => {
                 </Flex>)
                 : (  <Flex gap={2} >
                      <Avatar src="" w="7" h={7} />
-                    <Text maxW={"350px"} bg={"gray.400"} p={1} borderRadius={"md"}>
+                    <Text maxW={"350px"} bg={"gray.400"} p={1} borderRadius={"md"} color={"black"}>
                         
                         when an unknown printer took a galley of type and scrambled it to make a type 
                         specimen book. It has survived not only five centuries.
