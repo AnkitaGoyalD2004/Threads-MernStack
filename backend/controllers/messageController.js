@@ -70,54 +70,24 @@ if(!conversation){return res.status(404) . json({error : "Conversation not found
         res.status(500).json({ error: error.message });
     }
 }
-// async function getConversations (req , res){
-//     const userId  = req.user._id;
-//     try{
-//   const conversations = await Conversation.find({participants : userId}).populate({
-//     path: "participants",
-//     select: "username profilePic",
-//   })
-//   res.status(200).json(conversations);
-//     }catch(error){
-//         res.status(500).json({ error: error.message });
-
-//     }
-// }
-
-
 async function getConversations(req, res) {
-  try {
-    // Check if req.user exists and contains _id
-    if (!req.user || !req.user._id) {
-      return res.status(400).json({ error: "User not authenticated" });
-    }
+	const userId = req.user._id;
+	try {
+		const conversations = await Conversation.find({ participants: userId }).populate({
+			path: "participants",
+			select: "username profilePic",
+		});
 
-    const userId = req.user._id;
-
-    // Ensure userId is an ObjectId
-    const objectIdUserId = mongoose.Types.ObjectId(userId);
-
-    // Fetch conversations with participants populated
-    const conversations = await Conversation.find({
-      participants: objectIdUserId, // Make sure it's ObjectId
-    }).populate({
-      path: "participants",
-      select: "username profilePic",
-    });
-
-    // Check if conversations exist
-    if (!conversations || conversations.length === 0) {
-      return res.status(404).json({ message: "No conversations found" });
-    }
-
-    // Respond with conversations
-    res.status(200).json(conversations);
-  } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).json({ error: error.message });
-  }
+		// remove the current user from the participants array
+		conversations.forEach((conversation) => {
+			conversation.participants = conversation.participants.filter(
+				(participant) => participant._id.toString() !== userId.toString()
+			);
+		});
+		res.status(200).json(conversations);
+	} catch (error) {
+		res.status(500).json({ error: error.message });
+	}
 }
-
-  
 export { getConversations, getMessages, sendMessage };
 
