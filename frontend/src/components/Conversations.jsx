@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 
 const Conversations = ({conversation}) => {
+    const user = conversation.participants[0];
+    const lastMessage = conversation.lastMessage;
     return (
         <Flex gap={4} alignItems={"center"} p={"1"}
             _hover={{
@@ -30,11 +32,11 @@ const Conversations = ({conversation}) => {
             </WrapItem>
             <Stack direction={"column"} fontSize={"sm"} >
                 <Text fontWeight="700" display={"flex"} alignItems={"center"}>
-                     <Image src="/verified.png" w={4} h={4} ml={1} />
+                { user.username }  <Image src="/verified.png" w={4} h={4} ml={1} />
                 </Text>
 
                 <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
-                    Hello Some message ..........
+                    {lastMessage.text.length > 18 ? lastMessage.text.substring(0,18) + "..." : lastMessage.text}
                 </Text>
             </Stack>
         </Flex>
