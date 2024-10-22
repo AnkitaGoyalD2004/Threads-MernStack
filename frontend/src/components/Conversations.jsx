@@ -8,9 +8,13 @@ import {
     WrapItem,
     useColorModeValue
 } from "@chakra-ui/react";
+import { BsCheck2All } from "react-icons/bs";
+import { useRecoilValue } from "recoil";
+import userAtom from "../atoms/userAtom";
 
 const Conversations = ({conversation}) => {
     const user = conversation.participants[0];
+    const currentUser = useRecoilValue(userAtom);
     const lastMessage = conversation.lastMessage;
     return (
         <Flex gap={4} alignItems={"center"} p={"1"}
@@ -26,7 +30,7 @@ const Conversations = ({conversation}) => {
                     base: "xs",
                     sm: "sm",
                     md: "md"
-                }} src='https://bit.ly/broken-link' >
+                }} src={user.profilePicture} >
                 <AvatarBadge boxSize="1em" bg="green.500" />
                 </Avatar>
             </WrapItem>
@@ -36,6 +40,7 @@ const Conversations = ({conversation}) => {
                 </Text>
 
                 <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
+                  {currentUser._id === lastMessage.sender ? <BsCheck2All size={16} />: ""}
                     {lastMessage.text.length > 18 ? lastMessage.text.substring(0,18) + "..." : lastMessage.text}
                 </Text>
             </Stack>
