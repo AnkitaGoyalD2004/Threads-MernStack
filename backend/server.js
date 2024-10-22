@@ -17,8 +17,7 @@ import userRoutes from "./routes/userRoutes.js";
 dotenv.config();
 connectDB();
 const app = express();
-const PORT = process.env.PORT || 4500;
-
+const PORT = process.env.PORT || 4500; 
 // Custom CORS configuration
 const corsOptions = {
     origin: "http://localhost:3000", // Replace with your frontend URL

@@ -9,7 +9,7 @@ import {
     useColorModeValue
 } from "@chakra-ui/react";
 
-const Conversations = () => {
+const Conversations = ({conversation}) => {
     return (
         <Flex gap={4} alignItems={"center"} p={"1"}
             _hover={{
@@ -30,7 +30,7 @@ const Conversations = () => {
             </WrapItem>
             <Stack direction={"column"} fontSize={"sm"} >
                 <Text fontWeight="700" display={"flex"} alignItems={"center"}>
-                    Ankita <Image src="/verified.png" w={4} h={4} ml={1} />
+                     <Image src="/verified.png" w={4} h={4} ml={1} />
                 </Text>
 
                 <Text fontSize={"xs"} display={"flex"} alignItems={"center"} gap={1}>
