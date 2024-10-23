@@ -9,13 +9,15 @@ import {
     useColorModeValue
 } from "@chakra-ui/react";
 import { BsCheck2All } from "react-icons/bs";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { selectedConversationAtom } from "../atoms/messagesAtom";
 import userAtom from "../atoms/userAtom";
 
 const Conversations = ({conversation}) => {
     const user = conversation.participants[0];
     const currentUser = useRecoilValue(userAtom);
     const lastMessage = conversation.lastMessage;
+    const{selectedConversation , setSelectedConversation} = useRecoilState(selectedConversationAtom);
     return (
         <Flex gap={4} alignItems={"center"} p={"1"}
             _hover={{
