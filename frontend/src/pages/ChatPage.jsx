@@ -2,18 +2,24 @@ import { SearchIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Input, Skeleton, SkeletonCircle, Text, useColorModeValue } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 import { GiConversation } from "react-icons/gi";
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { conversationsAtom, selectedConversationAtom } from '../atoms/messagesAtom';
+import userAtom from '../atoms/userAtom';
 import Conversations from '../components/Conversations';
 import MessageContainer from '../components/MessageContainer';
 import useShowToast from "../hooks/useShowToast";
 
 const ChatPage = () => {
 
-      const showToast = useShowToast();
       const[loadingConversations , setLoadingConversations] = useState(true);
+      const [searchText , setSearchText] = useState("");
+      const [searchingUser , setSearchingUser] = useState(false);
+
       const[conversations , setConversations] = useRecoilState(conversationsAtom);
       const[selectedConversation , setSelectedConversation] = useRecoilState(selectedConversationAtom)
+      const currentUser = useRecoilValue(userAtom);
+
+      const showToast = useShowToast();
 
   useEffect(() => {
     const getConversations = async () => {
@@ -34,6 +40,31 @@ const ChatPage = () => {
     }
     getConversations();
   }, [showToast , setConversations]);
+
+const handleConversationSearch = async (e) => {
+  e.preventDefault();
+  setSearchingUser(true);
+  try{
+    const res = await fetch(`/api/users/profile/${searchText}`);
+    const searchedUser = await res.json();
+    if(searchedUser.error){
+      showToast("Error" , searchedUser.error , "error");
+      return;
+    }
+
+   //if a user is trying to message themselves
+   if(searchedUser._id === currentUser._id){
+    showToast("Error" , "You cannot message yourself" , "error");
+    return;
+   }
+
+  }catch(error){
+    showToast("Error" , error.message , "error");
+  }finally{
+    setSearchingUser(false);
+  }
+}
+
   return <Box position={"absolute"} left={"50%"} w={
     {
       base: "100%",
@@ -60,10 +91,10 @@ const ChatPage = () => {
         }}
         mx={"auto"}
       > <Text fontWeight={700} color={useColorModeValue("gray.600", "gray.400")}> Your Conversations</Text>
-        <form>
+        <form onSubmit={handleConversationSearch}>
           <Flex alignItems={"center"} gap={2}>
-            <Input placeholder="Search for a user" />
-            <Button size={"sm"}>
+            <Input placeholder="Search for a user" onChange={(e) => setSearchText(e.target.value)} />
+            <Button size={"sm"} onClick={handleConversationSearch} isLoading={searchingUser}>
               <SearchIcon />
             </Button>
           </Flex>
