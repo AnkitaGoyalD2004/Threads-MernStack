@@ -19,6 +19,7 @@ const currentUser = useRecoilValue(userAtom);
             setLoadingMessages(true);
             setMessages([]);
             try {
+                if(selectedConversation.mock) return;
                 const res = await fetch(`/api/messages/${selectedConversation.userId}`)
                 const data = await res.json();
                 if (data.error) {
