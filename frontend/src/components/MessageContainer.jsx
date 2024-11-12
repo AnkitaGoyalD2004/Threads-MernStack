@@ -13,7 +13,6 @@ const MessageContainer = () => {
    const[loadingMessages , setLoadingMessages] = useState(true);
 const [messages , setMessages]= useState([]);
 const currentUser = useRecoilValue(userAtom);
-
     useEffect(() => {
         const getMessage = async () => {
             setLoadingMessages(true);
