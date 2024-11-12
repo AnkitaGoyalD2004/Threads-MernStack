@@ -4,4 +4,16 @@ import { Server } from 'socket.io';
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server , {
+    cors:{
+        origin:"http://localhoast:3000",
+        methods:["GET" , "POST"]
+    }
+});
+
+io.on('connection' , (socket) =>{
+    console.log("user connected " , socket.id)
+})
+
+export { app, io, server };
+
