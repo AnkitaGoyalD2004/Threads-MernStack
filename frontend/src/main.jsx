@@ -9,7 +9,7 @@ import { ColorModeScript } from "@chakra-ui/color-mode";
 import { mode } from "@chakra-ui/theme-tools";
 import { extendTheme } from "@chakra-ui/theme-utils";
 import { RecoilRoot } from 'recoil';
-import { SocketContextProvider } from "../context/SocketContext.jsx";
+import { SocketContextProvider } from "../src/context/SocketContext.jsx";
 const styles = {
   global: (props) => ({
     body: {

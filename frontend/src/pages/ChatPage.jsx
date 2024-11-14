@@ -105,7 +105,7 @@ const ChatPage = () => {
       setSearchingUser(false);
     }
   }
-  return <Box position={"absolute"} left={"50%"} w={
+  return <Box  position={"absolute"} left={"50%"} w={
     {
       base: "100%",
       md: "80%",
@@ -162,7 +162,7 @@ const ChatPage = () => {
       {!selectedConversation._id && (
       <Flex flex={70}
       borderRadius={"md"} p={2} flexDir={"column"} alignItems={"center"} justifyContent={"center"} height={"400px"}>
-        <GiConversation size={100} />
+        <GiConversation size={100}/>
         <Text fontSize={20}> Select a conversation to start messaging</Text>
       </Flex>
       )}
