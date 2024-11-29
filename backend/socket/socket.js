@@ -19,7 +19,7 @@ io.on('connection' , (socket) =>{
     io.emit("getOnlineUsers", Object.keys(userSocketMap));// [1,2,3,4,5]
     
     socket.on("disconect" , () =>{
-     console.log("user discponnected")   
+     console.log("user discponnected")
     })
 })
 
