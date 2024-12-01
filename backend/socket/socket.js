@@ -20,6 +20,8 @@ io.on('connection' , (socket) =>{
     
     socket.on("disconect" , () =>{
      console.log("user disconnected")
+     delete userSocketMap[userId];
+     io.emit("getOnlineUsers", Object.keys(userSocketMap));
     })
 })
 
