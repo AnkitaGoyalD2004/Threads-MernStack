@@ -1,7 +1,7 @@
 import { Avatar, Divider, Flex, Image, Skeleton, SkeletonCircle, Text, useColorModeValue } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-// import messageSound from "../assets/sounds/message.mp3";
+import messageSound from "../assets/sounds/message.mp3";
 import { conversationsAtom, selectedConversationAtom } from "../atoms/messagesAtom";
 import userAtom from "../atoms/userAtom";
 import { useSocket } from "../context/SocketContext.jsx";
@@ -24,11 +24,11 @@ const MessageContainer = () => {
 				setMessages((prev) => [...prev, message]);
 			}
 
-			// // make a sound if the window is not focused
-			// if (!document.hasFocus()) {
-			// 	const sound = new Audio(messageSound);
-			// 	sound.play();
-			// }
+			// make a sound if the window is not focused
+			if (!document.hasFocus()) {
+				const sound = new Audio(messageSound);
+				sound.play();
+			}
 
 			setConversations((prev) => {
 				const updatedConversations = prev.map((conversation) => {
