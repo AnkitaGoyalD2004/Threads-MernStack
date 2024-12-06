@@ -1,6 +1,7 @@
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
+import Message from "../models/messageModel";
 
 const app = express();
 const server = http.createServer(app);
@@ -25,6 +26,15 @@ io.on('connection' , (socket) =>{
 
     io.emit("getOnlineUsers", Object.keys(userSocketMap));// [1,2,3,4,5]
     
+socket.on("markMessageAsSeen" , async({conversationId,userId}) => {
+    try{
+await Message.updateMany({conversationId: conversationId , seen : false} , {$set:{seen:true}})
+io.to(userSocketMap[userId]).emit("messageSeen" , {conversationId})
+    }catch(error){
+        console.log(error);
+    }
+})
+
     socket.on("disconect" , () =>{
      console.log("user disconnected")
      delete userSocketMap[userId];
