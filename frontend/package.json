@@ -14,6 +14,7 @@
     "@chakra-ui/react": "^2.8.2",
     "@emotion/react": "^11.13.0",
     "@emotion/styled": "^11.13.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "date-fns": "^4.1.0",
     "framer-motion": "^11.3.21",
     "react": "^18.3.1",
@@ -21,16 +22,15 @@
     "react-icons": "^5.4.0",
     "react-router-dom": "^6.26.0",
     "recoil": "^0.7.7",
-    "socket.io-client": "^4.8.1"
+    "socket.io-client": "^4.8.1",
+    "vite": "^5.3.4"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
-    "@vitejs/plugin-react": "^4.3.1",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.7",
-    "vite": "^5.3.4"
+    "eslint-plugin-react-refresh": "^0.4.7"
   }
 }
