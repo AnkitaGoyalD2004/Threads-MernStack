@@ -202,18 +202,29 @@ const getSuggestedUsers = async (req, res) => {
 
 		const usersFollowedByYou = await User.findById(userId).select("following");
 
+		const excludedIds = [
+			userId,
+			...(usersFollowedByYou?.following || []).map((id) => {
+				try {
+					return new mongoose.Types.ObjectId(id);
+				} catch {
+					return id;
+				}
+			}),
+		];
+
 		const users = await User.aggregate([
 			{
 				$match: {
-					_id: { $ne: userId },
+					_id: { $nin: excludedIds },
+					isFrozen: { $ne: true },
 				},
 			},
 			{
 				$sample: { size: 10 },
 			},
 		]);
-		const filteredUsers = users.filter((user) => !usersFollowedByYou.following.includes(user._id));
-		const suggestedUsers = filteredUsers.slice(0, 4);
+		const suggestedUsers = users.slice(0, 5);
 
 		suggestedUsers.forEach((user) => (user.password = null));
 

@@ -15,7 +15,7 @@ const UserHeader = ({ user }) => {
     const showToast = useShowToast();
     const toast = useToast();
     const currentUser = useRecoilValue(userAtom); // this is a user that is logged in 
-    const [following, setFollowing] = useState(user.followers.includes(currentUser?._id));
+    const [following, setFollowing] = useState(user?.followers?.includes(currentUser?._id) || false);
     const [updating, setUpdating] = useState(false);
 
     const copyURL = () => {
@@ -47,15 +47,16 @@ const UserHeader = ({ user }) => {
             })
             const data = await res.json();
             if (data.error) {
-                showToast("Error", error, "error");
+                showToast("Error", data.error, "error");
                 return;
             }
+            if (!user.followers) user.followers = [];
             if (following) {
                 showToast("Success", `Unfollowed ${user.name}`, "success");
-                user.followers.pop();// simulate removing from followers
+                user.followers = user.followers.filter((id) => id !== currentUser?._id);
             } else {
                 showToast("Success", `Followed ${user.name}`, "success");
-                user.followers.push(currentUser?._id); // simulate adding to followers
+                user.followers.push(currentUser?._id);
             }
             setFollowing(!following);
             console.log(data);
@@ -123,7 +124,7 @@ const UserHeader = ({ user }) => {
             )}
             <Flex w={"full"} justifyContent={"space-between"}>
                 <Flex gap={2} alignItems={"center"}>
-                    <Text color={"gray.light"}>{user.followers.length}</Text>
+                    <Text color={"gray.light"}>{user?.followers?.length || 0}</Text>
                     <Box w="1" h="1" bg={"gray.light"} borderRadius={"full"}></Box>
                     <Link color={"gray.light"}>instagram.com</Link>
                 </Flex>
