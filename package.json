@@ -1,4 +1,11 @@
 {
+  "name": "threads-mern",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "npm run dev --prefix backend",
+    "start": "node backend/server.js",
+    "build": "npm install --prefix backend && npm install --prefix frontend && npm run build --prefix frontend"
+  },
   "dependencies": {
     "cloc": "^2.2.0-cloc"
   }

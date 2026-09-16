@@ -15,20 +15,25 @@ import postRoutes from "./routes/postRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import { app, server } from "./socket/socket.js";
 
+import path from "path";
+
 dotenv.config();
 
 connectDB();
 
+const __dirname = path.resolve();
+
 const PORT = process.env.PORT || 4500; 
 // Custom CORS configuration
 const corsOptions = {
-    origin: "http://localhost:3000", // Replace with your frontend URL
+    origin: process.env.NODE_ENV === "production" ? true : "http://localhost:3000",
+    credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization", "Token"], // Allowed headers
-  };
+};
   
-  // Enable CORS with custom configuration
-  app.use(cors(corsOptions));
+// Enable CORS with custom configuration
+app.use(cors(corsOptions));
 
 
 
@@ -49,6 +54,13 @@ app.use("/api/users", userRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/messages", messageRoutes);
 
-// // Start server
-// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/dist")));
+
+	app.get("*", (req, res) => {
+		res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+	});
+}
+
+// Start server
 server.listen(PORT, () => console.log(`Server started at http:localhost:${PORT}`));
